@@ -17,7 +17,7 @@ env.read_env(BASE_DIR / ".env", True)
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-xns*8*#d&5_yb1dd@98nf7h(_9m3m)$z=iv#e84mubupgv4f6k')
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-development-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
@@ -84,16 +84,26 @@ WSGI_APPLICATION = 'conta_comigo_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB'),
-        'USER': os.getenv('POSTGRES_USER'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': os.getenv('POSTGRES_HOST'), 
-        'PORT': os.getenv('POSTGRES_PORT'),
+#No projeto original usava-se Postgres, mas para facilitar o desenvolvimento local, vamos usar SQLite.
+#Para isso, vamos usar a variável de ambiente USE_POSTGRES. Se ela estiver definida como 'true', o Django usará Postgres. Caso contrário, usará SQLite.
+if os.getenv('USE_POSTGRES', 'false').lower() == 'true':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('POSTGRES_DB'),
+            'USER': os.getenv('POSTGRES_USER'),
+            'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+            'HOST': os.getenv('POSTGRES_HOST'),
+            'PORT': os.getenv('POSTGRES_PORT'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 AUTHENTICATION_BACKENDS = (
     # Backend do SUAP
@@ -187,10 +197,9 @@ if not DEBUG:
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
 
-SOCIAL_AUTH_SUAP_KEY = env.str("SOCIAL_AUTH_SUAP_KEY")
-SOCIAL_AUTH_SUAP_SECRET = env.str("SOCIAL_AUTH_SUAP_SECRET")
-# rota do front
-SOCIAL_AUTH_SUAP_REDIRECT_URI = env.str("SOCIAL_AUTH_SUAP_REDIRECT_URI")
+SOCIAL_AUTH_SUAP_KEY = env.str("SOCIAL_AUTH_SUAP_KEY", default="")
+SOCIAL_AUTH_SUAP_SECRET = env.str("SOCIAL_AUTH_SUAP_SECRET", default="")
+SOCIAL_AUTH_SUAP_REDIRECT_URI = env.str("SOCIAL_AUTH_SUAP_REDIRECT_URI", default="")
 
 
 SIMPLE_JWT = {
