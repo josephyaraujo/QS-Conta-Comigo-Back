@@ -1,0 +1,30 @@
+// .devcontainer/devcontainer.json
+{
+  "name": "Conta Comigo Backend - Codespaces",
+
+  // Aponta para o seu arquivo docker-compose.
+  "dockerComposeFile": "../docker-compose.devcontainer.yaml",
+
+  // Diz ao VS Code qual serviço do compose é o seu ambiente de desenvolvimento.
+  "service": "api",
+
+  // Define a pasta que o VS Code deve abrir dentro do container.
+  "workspaceFolder": "/api",
+
+  "remoteUser": "vscode",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance"
+      ]
+    }
+  },
+
+  "forwardPorts": [8000],
+  
+  // Depois que o container for criado, o Codespaces executará automaticamente:
+  "postCreateCommand": "python manage.py migrate"
+  // Então o banco SQLite será preparado automaticamente.
+}
