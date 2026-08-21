@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # Serviço do Banco de Dados PostgreSQL
+  db:
+    image: postgres:13 # Usa a imagem oficial do PostgreSQL, versão 13
+    ports:
+      - "5432:5432"
+    volumes:
+      # Este volume garante que os dados do seu banco de dados persistam
+      # mesmo que o container seja recriado.
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      # Variáveis de ambiente para criar o banco de dados, usuário e senha.
+      # O PostgreSQL usa estas variáveis na primeira inicialização.
+      # MUDE OS VALORES ABAIXO PARA ALGO SEGURO!
+      - POSTGRES_DB=contacomigo_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pafinha
+
+  # Serviço da Aplicação Django
+  api:
+    build: . # Constrói a imagem a partir do Dockerfile no diretório atual
+    command: python manage.py runserver 0.0.0.0:8000 # Comando para iniciar o servidor
+    volumes:
+      # Monta o diretório atual do seu computador no diretório /app do container.
+      # Isso permite que alterações no código local reflitam imediatamente no container
+      # (live reload), o que é perfeito para desenvolvimento.
+      - .:/api
+    ports:
+      # Mapeia a porta 8000 do seu computador para a porta 8000 do container.
+      - "8001:8000"
+    environment:
+      # Passa as credenciais do banco de dados para a aplicação Django.
+      # Os valores devem ser os mesmos definidos no serviço 'db'.
+      - POSTGRES_DB=contacomigo_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pafinha
+      - POSTGRES_HOST=db # O nome do host é o nome do serviço 'db'
+      - POSTGRES_PORT=5432 # A porta padrão do PostgreSQL
+    depends_on:
+      # Garante que o serviço 'db' seja iniciado ANTES do serviço 'web'.
+      - db
+
+# Define o volume nomeado que será usado pelo serviço 'db'
+volumes:
+  postgres_data:
