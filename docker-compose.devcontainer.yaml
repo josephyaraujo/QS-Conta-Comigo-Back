@@ -9,4 +9,4 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - USE_POSTGRES: "false"
+      USE_POSTGRES: "false"
