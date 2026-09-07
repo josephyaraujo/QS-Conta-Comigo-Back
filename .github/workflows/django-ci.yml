@@ -1,0 +1,31 @@
+name: Django CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+      
+      - name: Verificar projeto Django
+        run: python manage.py check
+
+      - name: Executar migrations
+        run: python manage.py migrate
+      
+      - name: Executar testes
+        run: python manage.py test
