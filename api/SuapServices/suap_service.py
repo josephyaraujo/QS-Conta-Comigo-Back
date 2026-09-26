@@ -4,7 +4,7 @@ import requests
 from ..utils import formatar_nome_curso
 from django.db import transaction
 
-class PopulateUsuario():
+class PopulateUsuario:
     
     def __init__(self):
         self.USER_DATA_URL = "https://suap.ifrn.edu.br/api/rh/eu/" # dados geral do usuario
