@@ -29,3 +29,9 @@ jobs:
       
       - name: Executar testes
         run: python manage.py test
+      
+      - name: Detectar código depreciado
+        run: pytest -W error::DeprecationWarning -W error::PendingDeprecationWarning
+      
+      - name: Verificar código com Ruff
+        run: python -m ruff check api conta_comigo_backend --select UP

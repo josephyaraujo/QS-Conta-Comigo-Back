@@ -47,6 +47,7 @@ reportlab==4.4.10
 requests==2.33.1
 requests-oauthlib==2.0.0
 rpds-py==0.30.0
+ruff==0.16.9
 social-auth-app-django==5.4.3
 social-auth-core==4.8.7
 sqlparse==0.5.5
