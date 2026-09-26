@@ -1,0 +1,12 @@
+version: 2
+
+updates:
+  - package-ecosystem: "pip" #vai monitorar as libs python presentes no requirements.txt
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "github-actions" #vai monitorar as actions do github presentes no workflow de CI
+    directory: "/"
+    schedule:
+      interval: "weekly"
