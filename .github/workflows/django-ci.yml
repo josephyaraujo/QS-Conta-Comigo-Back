@@ -29,3 +29,6 @@ jobs:
       
       - name: Executar testes
         run: python manage.py test
+      
+      - name: Detectar código depreciado
+        run: pytest -W error::DeprecationWarning -W error::PendingDeprecationWarning
