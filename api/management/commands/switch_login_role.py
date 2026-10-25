@@ -7,25 +7,25 @@ Usuario = get_user_model()
 
 
 class Command(BaseCommand):
-    help = 'Alterna o modo de login entre AS e Aluno para um usuário identificado pelo e-mail.'
+    help = "Alterna o modo de login entre AS e Aluno para um usuário identificado pelo e-mail."
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--role',
-            choices=['as', 'aluno'],
-            help='Perfil que o usuário deve assumir no próximo login via SUAP.',
+            "--role",
+            choices=["as", "aluno"],
+            help="Perfil que o usuário deve assumir no próximo login via SUAP.",
         )
         parser.add_argument(
-            '--email',
-            help='E-mail retornado pelo SUAP para localizar o usuário local.',
+            "--email",
+            help="E-mail retornado pelo SUAP para localizar o usuário local.",
         )
 
     def handle(self, *args, **options):
         try:
-            role = self._resolve_role(options.get('role'))
-            email = self._resolve_email(options.get('email'))
+            role = self._resolve_role(options.get("role"))
+            email = self._resolve_email(options.get("email"))
         except KeyboardInterrupt:
-            self.stdout.write(self.style.WARNING('\nOperação cancelada pelo usuário.'))
+            self.stdout.write(self.style.WARNING("\nOperação cancelada pelo usuário."))
             return
 
         usuario = self._find_usuario(email)
@@ -33,25 +33,25 @@ class Command(BaseCommand):
         if not usuario:
             raise CommandError(
                 f'Nenhum usuário encontrado para "{email}". '
-                'Verifique se o e-mail está correto e se o usuário já foi criado no sistema.'
+                "Verifique se o e-mail está correto e se o usuário já foi criado no sistema."
             )
 
-        as_group, _ = Group.objects.get_or_create(name='AS')
-        aluno_group, _ = Group.objects.get_or_create(name='Aluno')
+        as_group, _ = Group.objects.get_or_create(name="AS")
+        aluno_group, _ = Group.objects.get_or_create(name="Aluno")
 
-        if role == 'as':
+        if role == "as":
             usuario.groups.add(as_group)
             usuario.groups.remove(aluno_group)
-            mensagem = 'modo AS'
+            mensagem = "modo AS"
         else:
             usuario.groups.remove(as_group)
             usuario.groups.add(aluno_group)
-            mensagem = 'modo Aluno'
+            mensagem = "modo Aluno"
 
         self.stdout.write(
             self.style.SUCCESS(
-                f'Usuário {usuario.nome_completo} ({usuario.username}) ajustado para {mensagem}. '
-                'Agora faça o login via SUAP novamente.'
+                f"Usuário {usuario.nome_completo} ({usuario.username}) ajustado para {mensagem}. "
+                "Agora faça o login via SUAP novamente."
             )
         )
 
@@ -59,25 +59,25 @@ class Command(BaseCommand):
         if role:
             return role
 
-        self.stdout.write('Escolha o perfil de login:')
-        self.stdout.write('  1 - AS')
-        self.stdout.write('  2 - Aluno')
-        choice = input('Opção: ').strip().lower()
+        self.stdout.write("Escolha o perfil de login:")
+        self.stdout.write("  1 - AS")
+        self.stdout.write("  2 - Aluno")
+        choice = input("Opção: ").strip().lower()
 
-        if choice in {'1', 'as', 'assistente social', 'assistente_social'}:
-            return 'as'
-        if choice in {'2', 'aluno'}:
-            return 'aluno'
+        if choice in {"1", "as", "assistente social", "assistente_social"}:
+            return "as"
+        if choice in {"2", "aluno"}:
+            return "aluno"
 
-        raise CommandError('Opção inválida. Use AS ou Aluno.')
+        raise CommandError("Opção inválida. Use AS ou Aluno.")
 
     def _resolve_email(self, email):
         if email:
             return email.strip()
 
-        email = input('E-mail retornado pelo SUAP: ').strip()
+        email = input("E-mail retornado pelo SUAP: ").strip()
         if not email:
-            raise CommandError('O e-mail não pode ficar vazio.')
+            raise CommandError("O e-mail não pode ficar vazio.")
         return email
 
     def _find_usuario(self, email):

@@ -5,44 +5,66 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0007_aluno_ingresso_aluno_qtd_periodos'),
+        ("api", "0007_aluno_ingresso_aluno_qtd_periodos"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='documento',
-            name='url_documento',
+            model_name="documento",
+            name="url_documento",
         ),
         migrations.AddField(
-            model_name='documento',
-            name='arquivo',
-            field=models.FileField(blank=True, null=True, upload_to='documentos/'),
+            model_name="documento",
+            name="arquivo",
+            field=models.FileField(blank=True, null=True, upload_to="documentos/"),
         ),
         migrations.AddField(
-            model_name='documento',
-            name='assistente_social',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='api.assistentesocial'),
+            model_name="documento",
+            name="assistente_social",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="api.assistentesocial",
+            ),
         ),
         migrations.AddField(
-            model_name='documento',
-            name='chamado',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='documentos', to='api.chamado'),
+            model_name="documento",
+            name="chamado",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="documentos",
+                to="api.chamado",
+            ),
         ),
         migrations.AlterField(
-            model_name='documento',
-            name='aluno',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='documentos_criados', to='api.aluno'),
+            model_name="documento",
+            name="aluno",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="documentos_criados",
+                to="api.aluno",
+            ),
         ),
         migrations.AlterField(
-            model_name='documento',
-            name='data_criacao',
+            model_name="documento",
+            name="data_criacao",
             field=models.DateTimeField(auto_now_add=True),
         ),
         migrations.AlterField(
-            model_name='documento',
-            name='solicitacao',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='documentos', to='api.solicitacao'),
+            model_name="documento",
+            name="solicitacao",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="documentos",
+                to="api.solicitacao",
+            ),
         ),
     ]

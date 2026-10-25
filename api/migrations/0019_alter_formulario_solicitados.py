@@ -4,15 +4,22 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0018_alter_auxilio_nome'),
+        ("api", "0018_alter_auxilio_nome"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='formulario',
-            name='solicitados',
-            field=models.CharField(choices=[('todos', 'Todos os alunos'), ('auxilio', 'Alunos do auxílio selecionado'), ('individual', 'Alunos selecionados individualmente')], default='todos', max_length=30),
+            model_name="formulario",
+            name="solicitados",
+            field=models.CharField(
+                choices=[
+                    ("todos", "Todos os alunos"),
+                    ("auxilio", "Alunos do auxílio selecionado"),
+                    ("individual", "Alunos selecionados individualmente"),
+                ],
+                default="todos",
+                max_length=30,
+            ),
         ),
     ]

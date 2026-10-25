@@ -4,15 +4,22 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0024_merge_20260622_2253'),
+        ("api", "0024_merge_20260622_2253"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='notificacao',
-            name='tipo',
-            field=models.CharField(choices=[('formulario', 'Formulário'), ('chamado', 'Chamado'), ('geral', 'Geral')], default='geral', max_length=20),
+            model_name="notificacao",
+            name="tipo",
+            field=models.CharField(
+                choices=[
+                    ("formulario", "Formulário"),
+                    ("chamado", "Chamado"),
+                    ("geral", "Geral"),
+                ],
+                default="geral",
+                max_length=20,
+            ),
         ),
     ]

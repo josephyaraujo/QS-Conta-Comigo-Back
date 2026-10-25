@@ -17,7 +17,9 @@ def _choice_value(model, field_name, fallback=None):
 
 
 def criar_usuario_valido(**kwargs):
-    field_names = {field.name for field in Usuario._meta.get_fields() if hasattr(field, "name")}
+    field_names = {
+        field.name for field in Usuario._meta.get_fields() if hasattr(field, "name")
+    }
 
     data = {}
 
@@ -48,13 +50,17 @@ def criar_usuario_valido(**kwargs):
 
 
 def criar_aluno_valido(**kwargs):
-    field_names = {field.name for field in Aluno._meta.get_fields() if hasattr(field, "name")}
+    field_names = {
+        field.name for field in Aluno._meta.get_fields() if hasattr(field, "name")
+    }
 
     data = {}
 
     if "usuario" in field_names:
         identificador_usuario = kwargs.pop("identificador_usuario", "202600000")
-        username_usuario = kwargs.pop("username_usuario", f"user_{identificador_usuario}")
+        username_usuario = kwargs.pop(
+            "username_usuario", f"user_{identificador_usuario}"
+        )
         email_usuario = kwargs.pop("email_usuario", f"{username_usuario}@teste.com")
 
         data["usuario"] = criar_usuario_valido(

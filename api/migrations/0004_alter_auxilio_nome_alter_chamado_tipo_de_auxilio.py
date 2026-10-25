@@ -4,20 +4,41 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0003_formulario_status'),
+        ("api", "0003_formulario_status"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='auxilio',
-            name='nome',
-            field=models.CharField(choices=[('auxilio_transporte', 'Auxílio Transporte'), ('auxilio_moradia', 'Auxílio Moradia'), ('alimentacao_estudantil', 'Alimentação Estudantil'), ('apoio_formacao_estudantil', 'Apoio à Formação Estudantil'), ('auxilios_eventuais', 'Auxílios Eventuais'), ('outros', 'Outros')], default='', max_length=27),
+            model_name="auxilio",
+            name="nome",
+            field=models.CharField(
+                choices=[
+                    ("auxilio_transporte", "Auxílio Transporte"),
+                    ("auxilio_moradia", "Auxílio Moradia"),
+                    ("alimentacao_estudantil", "Alimentação Estudantil"),
+                    ("apoio_formacao_estudantil", "Apoio à Formação Estudantil"),
+                    ("auxilios_eventuais", "Auxílios Eventuais"),
+                    ("outros", "Outros"),
+                ],
+                default="",
+                max_length=27,
+            ),
         ),
         migrations.AlterField(
-            model_name='chamado',
-            name='tipo_de_auxilio',
-            field=models.CharField(choices=[('auxilio_transporte', 'Auxílio Transporte'), ('auxilio_moradia', 'Auxílio Moradia'), ('alimentacao_estudantil', 'Alimentação Estudantil'), ('apoio_formacao_estudantil', 'Apoio à Formação Estudantil'), ('auxilios_eventuais', 'Auxílios Eventuais'), ('outros', 'Outros')], default='auxilio transporte', max_length=30),
+            model_name="chamado",
+            name="tipo_de_auxilio",
+            field=models.CharField(
+                choices=[
+                    ("auxilio_transporte", "Auxílio Transporte"),
+                    ("auxilio_moradia", "Auxílio Moradia"),
+                    ("alimentacao_estudantil", "Alimentação Estudantil"),
+                    ("apoio_formacao_estudantil", "Apoio à Formação Estudantil"),
+                    ("auxilios_eventuais", "Auxílios Eventuais"),
+                    ("outros", "Outros"),
+                ],
+                default="auxilio transporte",
+                max_length=30,
+            ),
         ),
     ]

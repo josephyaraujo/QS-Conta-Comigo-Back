@@ -4,15 +4,26 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0017_alter_chamado_tipo_de_auxilio'),
+        ("api", "0017_alter_chamado_tipo_de_auxilio"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='auxilio',
-            name='nome',
-            field=models.CharField(choices=[('Auxílio Transporte', 'auxilio_transporte'), ('Auxílio Moradia', 'auxilio_moradia'), ('Alimentação Estudantil', 'alimentacao_estudantil'), ('Apoio à Formação Estudantil', 'apoio_formacao_estudantil'), ('Auxílios Eventuais', 'auxilios_eventuais'), ('Curso de Idiomas', 'curso_idiomas'), ('Outros', 'outros')], default='', max_length=100),
+            model_name="auxilio",
+            name="nome",
+            field=models.CharField(
+                choices=[
+                    ("Auxílio Transporte", "auxilio_transporte"),
+                    ("Auxílio Moradia", "auxilio_moradia"),
+                    ("Alimentação Estudantil", "alimentacao_estudantil"),
+                    ("Apoio à Formação Estudantil", "apoio_formacao_estudantil"),
+                    ("Auxílios Eventuais", "auxilios_eventuais"),
+                    ("Curso de Idiomas", "curso_idiomas"),
+                    ("Outros", "outros"),
+                ],
+                default="",
+                max_length=100,
+            ),
         ),
     ]

@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0020_rename_documento_chamado_chat_arquivo'),
+        ("api", "0020_rename_documento_chamado_chat_arquivo"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='chamado',
-            name='justificativa_recusa',
+            model_name="chamado",
+            name="justificativa_recusa",
             field=models.CharField(blank=True, max_length=200, null=True),
         ),
     ]

@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0009_documento_titulo_alter_notificacao_titulo'),
+        ("api", "0009_documento_titulo_alter_notificacao_titulo"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='auxilio',
-            name='descricao',
+            model_name="auxilio",
+            name="descricao",
             field=models.CharField(max_length=500),
         ),
     ]

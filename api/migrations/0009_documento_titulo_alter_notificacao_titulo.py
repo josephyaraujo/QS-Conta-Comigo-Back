@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0008_remove_documento_url_documento_documento_arquivo_and_more'),
+        ("api", "0008_remove_documento_url_documento_documento_arquivo_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='documento',
-            name='titulo',
-            field=models.CharField(default='', max_length=100),
+            model_name="documento",
+            name="titulo",
+            field=models.CharField(default="", max_length=100),
         ),
         migrations.AlterField(
-            model_name='notificacao',
-            name='titulo',
+            model_name="notificacao",
+            name="titulo",
             field=models.CharField(blank=True, max_length=50, null=True),
         ),
     ]

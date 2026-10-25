@@ -8,39 +8,38 @@ from api.models import Documento
 from api.permission import IsAlunoOrAssistenteSocial
 from api.serializers.chamados import DocumentoAlunoSerializer, DocumentoCreateSerializer
 
+
 class DocumentoViewSet(viewsets.ModelViewSet):
     queryset = Documento.objects.all()
     serializer_class = DocumentoAlunoSerializer
-    permission_classes = [IsAlunoOrAssistenteSocial]  
+    permission_classes = [IsAlunoOrAssistenteSocial]
 
     def get_serializer_class(self):
-        if self.action == 'envia':
+        if self.action == "envia":
             return DocumentoCreateSerializer
         return self.serializer_class
 
     @action(
         detail=True,
-        methods=['post'],
-        url_path='envia',
-        parser_classes=[MultiPartParser, FormParser]
+        methods=["post"],
+        url_path="envia",
+        parser_classes=[MultiPartParser, FormParser],
     )
     def envia(self, request, pk=None):
-        arquivo = request.FILES.get('arquivo')
+        arquivo = request.FILES.get("arquivo")
 
         if not arquivo:
             return Response(
-                {'arquivo': 'Arquivo não enviado.'},
-                status=status.HTTP_400_BAD_REQUEST
+                {"arquivo": "Arquivo não enviado."}, status=status.HTTP_400_BAD_REQUEST
             )
 
         caminho = default_storage.save(
-            f'documentos/{arquivo.name}',
-            ContentFile(arquivo.read())
+            f"documentos/{arquivo.name}", ContentFile(arquivo.read())
         )
 
         data = request.data.copy()
-        data['aluno_id'] = pk
-        data['url_documento'] = caminho  # 🔹 string
+        data["aluno_id"] = pk
+        data["url_documento"] = caminho  # 🔹 string
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
@@ -48,6 +47,5 @@ class DocumentoViewSet(viewsets.ModelViewSet):
 
         return Response(
             {"mensagem": "Documento enviado com sucesso."},
-            status=status.HTTP_201_CREATED
+            status=status.HTTP_201_CREATED,
         )
-
