@@ -35,3 +35,6 @@ jobs:
       
       - name: Verificar código com Ruff
         run: python -m ruff check api conta_comigo_backend --select UP
+      
+      - name: Verificar padrão de formatação com Ruff
+        run: python -m ruff format --check api conta_comigo_backend
