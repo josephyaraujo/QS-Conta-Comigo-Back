@@ -4,11 +4,9 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0019_alter_formulario_solicitados'),
-        ('api', '0023_chamado_justificativa_chamado'),
+        ("api", "0019_alter_formulario_solicitados"),
+        ("api", "0023_chamado_justificativa_chamado"),
     ]
 
-    operations = [
-    ]
+    operations = []

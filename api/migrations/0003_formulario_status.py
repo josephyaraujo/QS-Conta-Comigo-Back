@@ -4,15 +4,22 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0002_remove_auxilio_campus_and_more'),
+        ("api", "0002_remove_auxilio_campus_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='formulario',
-            name='status',
-            field=models.CharField(choices=[('aberto', 'Aberto'), ('concluido', 'Concluído'), ('rascunho', 'Rascunho')], default='rascunho', max_length=20),
+            model_name="formulario",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("aberto", "Aberto"),
+                    ("concluido", "Concluído"),
+                    ("rascunho", "Rascunho"),
+                ],
+                default="rascunho",
+                max_length=20,
+            ),
         ),
     ]

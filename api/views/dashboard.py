@@ -6,11 +6,11 @@ from ..models import *
 from ..serializers import *
 from rest_framework.views import APIView
 
+
 class DashboardView(APIView):
-    permission_classes = [OnlyAssistenteSocial]  
-    
+    permission_classes = [OnlyAssistenteSocial]
+
     def get(self, request, *args, **kwargs):
         data = DashboardService.get_indicadores()
-        
-        return Response(data)
 
+        return Response(data)

@@ -10,5 +10,3 @@ class CursosViewSet(viewsets.ModelViewSet):
     serializer_class = CursoSerializer
     pagination_class = None
     permission_classes = [IsAlunoOrAssistenteSocial]
-    
-

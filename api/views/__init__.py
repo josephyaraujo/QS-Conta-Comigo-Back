@@ -13,7 +13,7 @@ from .formularios import (
     FormularioQuestaoViewSet,
     FormularioQuestaoOpcaoViewSet,
     RespostaFormularioViewSet,
-    RespostaQuestaoViewSet
+    RespostaQuestaoViewSet,
 )
 
 # Views de chamados
@@ -32,31 +32,27 @@ from .dashboard import DashboardView
 
 __all__ = [
     # Autenticação
-    'LoginSuap',
-    'ExchangeSuapCode',
-    
+    "LoginSuap",
+    "ExchangeSuapCode",
     # Usuários
-    'UsuarioViewSet',
-    'AlunoViewSet',
-    'AssistenteSocialViewSet',
-    
+    "UsuarioViewSet",
+    "AlunoViewSet",
+    "AssistenteSocialViewSet",
     # Solicitações e benefícios
-    'SolicitacaoViewSet',
-    'BeneficioViewSet',
-    'AuxilioViewSet',
-    
+    "SolicitacaoViewSet",
+    "BeneficioViewSet",
+    "AuxilioViewSet",
     # Formulários
-    'FormularioViewSet',
-    'FormularioQuestaoViewSet',
-    'FormularioQuestaoOpcaoViewSet',
-    'RespostaFormularioViewSet',
-    'RespostaQuestaoViewSet',
-    
+    "FormularioViewSet",
+    "FormularioQuestaoViewSet",
+    "FormularioQuestaoOpcaoViewSet",
+    "RespostaFormularioViewSet",
+    "RespostaQuestaoViewSet",
     # Outros
-    'ChamadoViewSet',
-    'ChamadoDetailViewSet',
-    'DocumentoViewSet',
-    'NotificacaoViewSet',
-    'PerguntaViewSet',
-    'DashboardView',
+    "ChamadoViewSet",
+    "ChamadoDetailViewSet",
+    "DocumentoViewSet",
+    "NotificacaoViewSet",
+    "PerguntaViewSet",
+    "DashboardView",
 ]

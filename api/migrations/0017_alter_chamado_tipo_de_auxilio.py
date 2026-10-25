@@ -5,15 +5,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0016_alter_chamado_documentos'),
+        ("api", "0016_alter_chamado_documentos"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='chamado',
-            name='tipo_de_auxilio',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='chamados', to='api.auxilio', verbose_name='tipo de auxilio'),
+            model_name="chamado",
+            name="tipo_de_auxilio",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="chamados",
+                to="api.auxilio",
+                verbose_name="tipo de auxilio",
+            ),
         ),
     ]

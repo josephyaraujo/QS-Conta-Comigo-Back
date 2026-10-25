@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0022_remove_chamado_justificativa_recusa'),
+        ("api", "0022_remove_chamado_justificativa_recusa"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='chamado',
-            name='justificativa_chamado',
+            model_name="chamado",
+            name="justificativa_chamado",
             field=models.CharField(blank=True, max_length=200, null=True),
         ),
     ]

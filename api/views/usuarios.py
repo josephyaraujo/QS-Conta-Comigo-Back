@@ -12,7 +12,6 @@ from ..serializers import *
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
-    
 
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
@@ -21,7 +20,7 @@ class UsuarioViewSet(viewsets.ModelViewSet):
     @swagger_auto_schema(
         request_body=UsuarioSerializer,
         operation_summary="Criar usuário",
-        operation_description="Cria um novo usuário no sistema"
+        operation_description="Cria um novo usuário no sistema",
     )
     def create(self, request, *args, **kwargs):
         return super().create(request, *args, **kwargs)
@@ -33,7 +32,7 @@ class AlunoViewSet(viewsets.ModelViewSet):
 
     @swagger_auto_schema(
         operation_summary="Listar alunos",
-        operation_description="Retorna todos os alunos cadastrados"
+        operation_description="Retorna todos os alunos cadastrados",
     )
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
@@ -43,17 +42,19 @@ class AssistenteSocialViewSet(viewsets.ModelViewSet):
     queryset = AssistenteSocial.objects.all()
     serializer_class = AssistenteSocialSerializer
 
+
 class PerfilAlunoViewSet(viewsets.ViewSet):
     """
     ViewSet para visualizar o perfil do aluno logado.
     Retorna apenas os dados do aluno autenticado (somente leitura).
     Os dados são sincronizados com a API externa (SUAP).
     """
+
     permission_classes = [IsAlunoOrAssistenteSocial]
-    
+
     @swagger_auto_schema(
         operation_summary="Obter perfil do aluno logado",
-        operation_description="Retorna o perfil completo do aluno autenticado"
+        operation_description="Retorna o perfil completo do aluno autenticado",
     )
     def list(self, request):
         """
@@ -67,6 +68,6 @@ class PerfilAlunoViewSet(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Aluno.DoesNotExist:
             return Response(
-                {'error': 'Usuário logado não é um aluno.'}, 
-                status=status.HTTP_404_NOT_FOUND
+                {"error": "Usuário logado não é um aluno."},
+                status=status.HTTP_404_NOT_FOUND,
             )

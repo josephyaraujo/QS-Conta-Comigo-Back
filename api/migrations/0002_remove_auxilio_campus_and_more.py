@@ -4,24 +4,34 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0001_initial'),
+        ("api", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='auxilio',
-            name='campus',
+            model_name="auxilio",
+            name="campus",
         ),
         migrations.AddField(
-            model_name='auxilio',
-            name='nome',
-            field=models.CharField(choices=[('Auxílio Transporte', 'Auxílio transporte'), ('Auxílio Moradia', 'Auxílio moradia'), ('Alimentação Estudantil', 'Alimentação estudantil'), ('Apoio a Formação Estudantil', 'Apoio a formação estudantil'), ('Auxílios Eventuais', 'Auxílios eventuais'), ('Outros', 'Outros')], default='', max_length=27),
+            model_name="auxilio",
+            name="nome",
+            field=models.CharField(
+                choices=[
+                    ("Auxílio Transporte", "Auxílio transporte"),
+                    ("Auxílio Moradia", "Auxílio moradia"),
+                    ("Alimentação Estudantil", "Alimentação estudantil"),
+                    ("Apoio a Formação Estudantil", "Apoio a formação estudantil"),
+                    ("Auxílios Eventuais", "Auxílios eventuais"),
+                    ("Outros", "Outros"),
+                ],
+                default="",
+                max_length=27,
+            ),
         ),
         migrations.AlterField(
-            model_name='auxilio',
-            name='descricao',
+            model_name="auxilio",
+            name="descricao",
             field=models.CharField(max_length=100),
         ),
     ]

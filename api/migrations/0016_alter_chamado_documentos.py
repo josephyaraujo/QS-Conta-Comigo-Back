@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0015_documento_descricao_remove_chamado_documentos_and_more'),
+        ("api", "0015_documento_descricao_remove_chamado_documentos_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='chamado',
-            name='documentos',
-            field=models.ManyToManyField(to='api.documento', verbose_name='documentos'),
+            model_name="chamado",
+            name="documentos",
+            field=models.ManyToManyField(to="api.documento", verbose_name="documentos"),
         ),
     ]

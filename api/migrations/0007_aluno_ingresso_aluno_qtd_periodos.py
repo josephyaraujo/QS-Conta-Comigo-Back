@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0006_documento_url_documento'),
+        ("api", "0006_documento_url_documento"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='aluno',
-            name='ingresso',
+            model_name="aluno",
+            name="ingresso",
             field=models.CharField(blank=True, max_length=100, null=True),
         ),
         migrations.AddField(
-            model_name='aluno',
-            name='qtd_periodos',
+            model_name="aluno",
+            name="qtd_periodos",
             field=models.IntegerField(blank=True, null=True),
         ),
     ]

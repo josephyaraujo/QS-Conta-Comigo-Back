@@ -5,24 +5,36 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('api', '0013_populate_cursos'),
+        ("api", "0013_populate_cursos"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='documento',
-            name='chamado',
+            model_name="documento",
+            name="chamado",
         ),
         migrations.AddField(
-            model_name='chamado',
-            name='documentos',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='api.documento', verbose_name='documentos'),
+            model_name="chamado",
+            name="documentos",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="api.documento",
+                verbose_name="documentos",
+            ),
         ),
         migrations.AlterField(
-            model_name='chamado',
-            name='status',
-            field=models.CharField(choices=[('em_analise', 'Em análise'), ('concluido', 'Concluído'), ('fechado', 'Fechado')], default='em_analise', max_length=10),
+            model_name="chamado",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("em_analise", "Em análise"),
+                    ("concluido", "Concluído"),
+                    ("fechado", "Fechado"),
+                ],
+                default="em_analise",
+                max_length=10,
+            ),
         ),
     ]
