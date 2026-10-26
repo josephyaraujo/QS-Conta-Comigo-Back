@@ -1,4 +1,3 @@
-
 from datetime import date, timedelta
 
 from api.models import (
@@ -169,6 +168,7 @@ def criar_dados_formulario_questao(
 
     return dados
 
+
 def criar_dados_aluno(
     nome_completo="Usuario Teste",
     email="userteste@gmail.com",
@@ -207,6 +207,7 @@ def criar_dados_aluno(
 
     return dados
 
+
 def criar_dados_pergunta(cpf="55284158024"):
     dados_aluno = criar_dados_solicitacao()
     aluno = dados_aluno["aluno"]
@@ -231,6 +232,7 @@ def criar_dados_pergunta(cpf="55284158024"):
         "pergunta": pergunta,
     }
 
+
 def criar_dados_assistente_social():
     usuario = Usuario.objects.create(
         nome_completo="Assistente Social Teste",
@@ -245,6 +247,7 @@ def criar_dados_assistente_social():
         "usuario": usuario,
         "assistente_social": assistente_social,
     }
+
 
 def criar_dados_auxilio(**overrides):
     """Retorna dados padrão para testes de Auxilio."""

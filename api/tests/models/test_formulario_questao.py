@@ -37,5 +37,3 @@ class TestFormularioQuestaoModel(TestCase):
         )
         with self.assertRaises(ValidationError):
             questao.full_clean()
-
-

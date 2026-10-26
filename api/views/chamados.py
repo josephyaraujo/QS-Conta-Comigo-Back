@@ -30,6 +30,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
 from api.views.permissions_helpers import obter_permissoes_por_acao
 
+
 class ChamadoViewSet(viewsets.ModelViewSet):
     queryset = Chamado.objects.all()
     serializer_class = ChamadoSerializer

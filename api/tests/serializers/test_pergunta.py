@@ -17,7 +17,7 @@ class TestPerguntaSerializer(TestCase):
             setattr(self, nome, valor)
 
         self.assistente_social = self.usuario.assistentesocial
-        
+
         self.resposta = {
             "enunciado": self.pergunta.enunciado,
             "resposta": "resposta teste",

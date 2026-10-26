@@ -5,14 +5,15 @@ from api.serializers.auxilio_beneficio import AuxilioListSerializer, AuxilioSeri
 
 from api.tests.factories import criar_dados_auxilio
 
+
 class AuxilioSerializerTestCase(TestCase):
     def setUp(self):
         self.auxilio = Auxilio.objects.create(
             **criar_dados_auxilio(
-            descricao="Auxílio para testes",
-            qtd_chamados=2,
+                descricao="Auxílio para testes",
+                qtd_chamados=2,
+            )
         )
-    )
 
     def test_deve_serializar_todos_os_campos_esperados(self):
         serializer = AuxilioSerializer(instance=self.auxilio)
@@ -44,7 +45,6 @@ class AuxilioSerializerTestCase(TestCase):
         serializer = AuxilioSerializer(data=payload)
 
         self.assertTrue(serializer.is_valid(), serializer.errors)
-
 
     def test_deve_criar_auxilio_via_serializer(self):
         payload = criar_dados_auxilio(

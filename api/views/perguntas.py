@@ -11,6 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 from api.permission import OnlyAluno, OnlyAssistenteSocial
 from api.views.permissions_helpers import obter_permissoes_por_acao
 
+
 class PerguntaViewSet(viewsets.ModelViewSet):
     queryset = Pergunta.objects.all()
     serializer_class = PerguntaSerializer
@@ -37,6 +38,7 @@ class PerguntaViewSet(viewsets.ModelViewSet):
                 "minhas_perguntas",
             ],
         )
+
     def create(self, request, *args, **kwargs):
         # Obter o aluno associado ao usuário autenticado
         try:

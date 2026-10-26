@@ -6,6 +6,7 @@ from django.test import TestCase
 from api.models import Formulario
 from api.tests.factories import criar_dados_formulario
 
+
 class TestFormularioModel(TestCase):
     def setUp(self):
         dados = criar_dados_formulario(

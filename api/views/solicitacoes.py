@@ -17,6 +17,7 @@ from datetime import datetime
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from api.views.permissions_helpers import obter_permissoes_por_acao
 
+
 class SolicitacaoViewSet(viewsets.ModelViewSet):
     queryset = Solicitacao.objects.all()
     serializer_class = SolicitacaoSerializer

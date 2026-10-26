@@ -3,6 +3,7 @@ from django.test import TestCase
 
 from api.tests.factories import criar_dados_assistente_social
 
+
 class TestAssistenteSocialModel(TestCase):
     def setUp(self):
         dados = criar_dados_assistente_social()

@@ -3,6 +3,7 @@ from django.test import TestCase
 from api.serializers import FormularioQuestaoOpcaoSerializer
 from api.tests.factories import criar_dados_formulario_questao
 
+
 class TestFormularioQuestaoOpcaoSerializer(TestCase):
     def setUp(self):
         dados = criar_dados_formulario_questao(

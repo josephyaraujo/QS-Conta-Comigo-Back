@@ -13,6 +13,7 @@ from ..filters import FormularioFilter
 from rest_framework.permissions import IsAuthenticated
 from api.views.permissions_helpers import obter_permissoes_por_acao
 
+
 class FormularioViewSet(viewsets.ModelViewSet):
     queryset = Formulario.objects.all().order_by("-data_inicio")
     serializer_class = FormularioSerializer
