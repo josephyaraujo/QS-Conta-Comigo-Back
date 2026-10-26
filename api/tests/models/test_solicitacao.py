@@ -1,4 +1,5 @@
 from datetime import date, timedelta
+from api.tests.factories import criar_dados_solicitacao
 from django.core.exceptions import ValidationError
 from api.models import (
     AssistenteSocial,
@@ -15,37 +16,9 @@ from django.test import TestCase
 
 class TestSolicitacaoModel(TestCase):
     def setUp(self):
-        self.usuario = Usuario.objects.create(
-            nome_completo="Pafinha Silva", email="pafinhaSilva@gmail.com"
-        )
-        self.statusSolicitacao = StatusSolicitacao.objects.create(
-            codigo=44, descricao="A" * 100
-        )
-        self.curso = Cursos.objects.create(
-            nome="Tecnologia em Análise e Desenvolvimento de Sistemas"
-        )
-        self.aluno = Aluno.objects.create(
-            usuario=self.usuario,
-            matricula="20241014040025",
-            cpf="55284158024",
-            curso=self.curso,
-            periodo=4,
-            status="Matriculado no SUAP",
-            campus="Natal-Central",
-            ingresso=None,
-            qtd_periodos=6,
-        )
-        self.assistente_social = AssistenteSocial.objects.create(
-            usuario=self.usuario, matricula="2024101"
-        )
-        self.tipo_auxilio = Auxilio.objects.create()
-        self.solicitacao = Solicitacao.objects.create(
-            status=self.statusSolicitacao,
-            descricao="B" * 200,
-            id_assistente_social=self.assistente_social,
-            id_aluno=self.aluno,
-            tipo_auxilio=self.tipo_auxilio,
-        )
+        dados = criar_dados_solicitacao()
+        for nome, valor in dados.items():
+            setattr(self, nome, valor)
 
     def test_descricao_abaixo_do_limite_valida(self):
         field = Solicitacao._meta.get_field("descricao")
