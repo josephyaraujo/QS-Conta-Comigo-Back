@@ -9,7 +9,7 @@ from rest_framework.exceptions import ValidationError
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from api.permission import OnlyAluno, OnlyAssistenteSocial
-
+from api.views.permissions_helpers import obter_permissoes_por_acao
 
 class PerguntaViewSet(viewsets.ModelViewSet):
     queryset = Pergunta.objects.all()
@@ -23,14 +23,20 @@ class PerguntaViewSet(viewsets.ModelViewSet):
         return self.serializer_class
 
     def get_permissions(self):
-        ACTIONS_ASSISTENTE = ["update", "partial_update", "responder_pergunta", "list"]
-        ACTIONS_ALUNO = ["create", "minhas_perguntas_proprio", "minhas_perguntas"]
-        if self.action in ACTIONS_ASSISTENTE:
-            return [IsAuthenticated(), OnlyAssistenteSocial()]
-        if self.action in ACTIONS_ALUNO:
-            return [IsAuthenticated(), OnlyAluno()]
-        return [IsAuthenticated()]
-
+        return obter_permissoes_por_acao(
+            self.action,
+            acoes_assistente=[
+                "update",
+                "partial_update",
+                "responder_pergunta",
+                "list",
+            ],
+            acoes_aluno=[
+                "create",
+                "minhas_perguntas_proprio",
+                "minhas_perguntas",
+            ],
+        )
     def create(self, request, *args, **kwargs):
         # Obter o aluno associado ao usuário autenticado
         try:

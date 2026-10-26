@@ -1,12 +1,18 @@
+
 from datetime import date, timedelta
+
 from django.test import TestCase
-from api.models import Formulario, Auxilio
+
 from api.serializers import FormularioSerializer
+from api.tests.factories import criar_dados_formulario
 
 
 class TestFormularioSerializer(TestCase):
     def setUp(self):
-        self.auxilio = Auxilio.objects.create()
+        dados = criar_dados_formulario()
+        self.auxilio = dados["auxilio"]
+        self.formulario = dados["formulario"]
+
         self.formulario_data = {
             "titulo": "Formulário Teste",
             "objetivo": "Objetivo de teste",
@@ -31,17 +37,6 @@ class TestFormularioSerializer(TestCase):
                 },
             ],
         }
-
-        self.formulario = Formulario.objects.create(
-            titulo="Formulário Teste",
-            objetivo="Objetivo de teste",
-            solicitados="Todos",
-            auxilio_alvo=self.auxilio,
-            data_inicio=date.today(),
-            data_fim=date.today() + timedelta(days=5),
-            alunos_solicitados=0,
-            status="rascunho",
-        )
 
     def test_serializer_com_dados_validos(self):
         serializer = FormularioSerializer(data=self.formulario_data)
@@ -79,5 +74,4 @@ class TestFormularioSerializer(TestCase):
             "alunos_solicitados",
             "status",
         }
-        # Verifica se os campos gerados pelo serializer contêm pelo menos os campos base do model
         self.assertTrue(campos_esperados.issubset(set(data.keys())))

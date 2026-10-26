@@ -21,6 +21,7 @@ from .models import (
     StatusSolicitacao,
 )
 from django.contrib.admin.sites import AlreadyRegistered
+from .serializers.campos import CAMPOS_FORMULARIO_QUESTAO
 
 
 # Configurações comuns para reutilização
@@ -117,13 +118,7 @@ class FormularioAdmin(BaseAdmin):
 
 # Configuração para o modelo de FormularioQuestao
 class FormularioQuestaoAdmin(BaseAdmin):
-    list_display = (
-        "formulario",
-        "titulo_pergunta",
-        "tipo_pergunta",
-        "obrigatoriedade",
-        "ordem",
-    )
+    list_display = CAMPOS_FORMULARIO_QUESTAO
     list_filter = ("tipo_pergunta", "obrigatoriedade")
     search_fields = ("titulo_pergunta",)
     list_editable = ("ordem",)

@@ -11,7 +11,7 @@ from ..models import *
 from ..serializers import *
 from ..filters import FormularioFilter
 from rest_framework.permissions import IsAuthenticated
-
+from api.views.permissions_helpers import obter_permissoes_por_acao
 
 class FormularioViewSet(viewsets.ModelViewSet):
     queryset = Formulario.objects.all().order_by("-data_inicio")
@@ -26,23 +26,18 @@ class FormularioViewSet(viewsets.ModelViewSet):
     ordering_fields = ["data_inicio", "data_fim", "alunos_solicitados"]
 
     def get_permissions(self):
-        ACTIONS_ASSISTENTE = [
-            "create",
-            "update",
-            "partial_update",
-            "destroy",
-            "envio",
-            "estatisticas",
-        ]
-        ACTIONS_ALUNO_OU_ASSISTENTE = ["list", "retrieve"]
-
-        if self.action in ACTIONS_ASSISTENTE:
-            return [IsAuthenticated(), OnlyAssistenteSocial()]
-
-        if self.action in ACTIONS_ALUNO_OU_ASSISTENTE:
-            return [IsAuthenticated(), IsAlunoOrAssistenteSocial()]
-
-        return [IsAuthenticated()]
+        return obter_permissoes_por_acao(
+            self.action,
+            acoes_assistente=[
+                "create",
+                "update",
+                "partial_update",
+                "destroy",
+                "envio",
+                "estatisticas",
+            ],
+            acoes_aluno_ou_assistente=["list", "retrieve"],
+        )
 
     @action(detail=True, methods=["post"])
     def envio(self, request, pk=None):

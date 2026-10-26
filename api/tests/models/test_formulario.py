@@ -1,22 +1,19 @@
 from datetime import date, timedelta
+
 from django.core.exceptions import ValidationError
 from django.test import TestCase
-from api.models import Formulario, Auxilio
 
+from api.models import Formulario
+from api.tests.factories import criar_dados_formulario
 
 class TestFormularioModel(TestCase):
     def setUp(self):
-        self.auxilio = Auxilio.objects.create()
-        self.formulario = Formulario.objects.create(
+        dados = criar_dados_formulario(
             titulo="A" * 100,
-            objetivo="Objetivo de teste",
             solicitados="todos",
-            auxilio_alvo=self.auxilio,
-            data_inicio=date.today(),
-            data_fim=date.today() + timedelta(days=5),
-            alunos_solicitados=0,
-            status="rascunho",
         )
+        self.auxilio = dados["auxilio"]
+        self.formulario = dados["formulario"]
 
     # ----- Testes Titulo ----------
     def test_titulo_caracteres_maximo_valido(self):

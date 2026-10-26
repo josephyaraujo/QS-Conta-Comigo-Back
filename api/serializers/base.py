@@ -1,5 +1,6 @@
 from jsonschema import ValidationError
 from rest_framework import serializers
+from .campos import CAMPOS_FORMULARIO_QUESTAO_COM_OPCOES
 
 from ..models import (
     Usuario,
@@ -130,14 +131,7 @@ class FormularioQuestaoSimpleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FormularioQuestao
-        fields = [
-            "id",
-            "titulo_pergunta",
-            "tipo_pergunta",
-            "obrigatoriedade",
-            "ordem",
-            "opcoes",
-        ]
+        fields = CAMPOS_FORMULARIO_QUESTAO_COM_OPCOES
 
 
 class CursoSerializer(serializers.ModelSerializer):

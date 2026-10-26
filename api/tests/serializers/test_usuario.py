@@ -1,30 +1,19 @@
-from api.models import Aluno, AssistenteSocial, Cursos, Usuario
-from api.serializers.base import UsuarioAuthSerializer, UsuarioSerializer
 from django.test import TestCase
+
+from api.serializers.base import UsuarioAuthSerializer, UsuarioSerializer
+from api.tests.factories import criar_dados_aluno
 
 
 class TestUsuarioSerializer(TestCase):
     def setUp(self):
-        self.usuario = Usuario.objects.create(
-            nome_completo="Assistente Social Teste", email="usertest@gmail.com"
+        dados = criar_dados_aluno(
+            nome_completo="Assistente Social Teste",
+            email="usertest@gmail.com",
+            criar_assistente_social=True,
         )
-        self.aluno = Aluno.objects.create(
-            usuario=self.usuario,
-            matricula="0" * 14,
-            cpf="0" * 11,
-            curso=Cursos.objects.create(
-                nome="Tecnologia em Análise e Desenvolvimento de Sistemas"
-            ),
-            periodo=4,
-            status="Matriculado no SUAP",
-            campus="Natal-Central",
-            ingresso=None,
-            qtd_periodos=6,
-        )
-        self.assistente_social = AssistenteSocial.objects.create(
-            usuario=self.usuario,
-            matricula="0" * 7,
-        )
+        self.usuario = dados["usuario"]
+        self.aluno = dados["aluno"]
+        self.assistente_social = dados["assistente_social"]
 
     def test_usuario_serializer_leitura_retorna_campos_esperados(self):
         data = UsuarioSerializer(instance=self.usuario).data

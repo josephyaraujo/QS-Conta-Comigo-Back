@@ -1,17 +1,13 @@
 from django.core.exceptions import ValidationError
-from api.models import AssistenteSocial, Usuario
 from django.test import TestCase
 
+from api.tests.factories import criar_dados_assistente_social
 
 class TestAssistenteSocialModel(TestCase):
     def setUp(self):
-        self.usuario = Usuario.objects.create(
-            nome_completo="Assistente Social Teste", email="usertest@gmail.com"
-        )
-        self.assistente_social = AssistenteSocial.objects.create(
-            usuario=self.usuario,
-            matricula="0" * 7,
-        )
+        dados = criar_dados_assistente_social()
+        self.usuario = dados["usuario"]
+        self.assistente_social = dados["assistente_social"]
 
     def test_cria_AS_valido(self):
         assistente_social = self.assistente_social
