@@ -1,6 +1,7 @@
 from django.test import TestCase
 from datetime import date, timedelta
 
+from api.tests.factories import criar_dados_beneficio
 from api.models import (
     Beneficio,
     AssistenteSocial,
@@ -20,48 +21,9 @@ from api.serializers.auxilio_beneficio import (
 
 class TestBeneficioSerializers(TestCase):
     def setUp(self):
-
-        self.usuario = Usuario.objects.create(
-            nome_completo="Pafinha Silva", email="pafinhaSilva@gmail.com"
-        )
-        self.statusSolicitacao = StatusSolicitacao.objects.create(
-            codigo=44, descricao="A" * 100
-        )
-        self.curso = Cursos.objects.create(
-            nome="Tecnologia em Análise e Desenvolvimento de Sistemas"
-        )
-        self.aluno = Aluno.objects.create(
-            usuario=self.usuario,
-            matricula="20241014040025",
-            cpf="55284158024",
-            curso=self.curso,
-            periodo=4,
-            status="Matriculado no SUAP",
-            campus="Natal-Central",
-            ingresso=None,
-            qtd_periodos=6,
-        )
-        self.assistente_social = AssistenteSocial.objects.create(
-            usuario=self.usuario, matricula="2024101"
-        )
-        self.tipo_auxilio = Auxilio.objects.create()
-        self.solicitacao = Solicitacao.objects.create(
-            status=self.statusSolicitacao,
-            descricao="B" * 100,
-            id_assistente_social=self.assistente_social,
-            id_aluno=self.aluno,
-            tipo_auxilio=self.tipo_auxilio,
-        )
-        self.beneficio = Beneficio.objects.create(
-            aluno=self.aluno,
-            solicitacao=self.solicitacao,
-            tipo_auxilio=self.tipo_auxilio,
-            status=True,
-            data_inicio=date.today(),
-            data_fim=date.today() + timedelta(days=30),
-            data_finalizacao=date.today() + timedelta(days=30),
-            justificativa_finalizacao="B" * 200,
-        )
+        dados = criar_dados_beneficio()
+        for nome, valor in dados.items():
+            setattr(self, nome, valor)
 
     def test_beneficio_create_serializer_valida_dados_corretos(self):
         serializer = BeneficioCreateSerializer(
