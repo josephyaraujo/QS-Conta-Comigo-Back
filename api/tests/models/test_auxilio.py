@@ -2,26 +2,12 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from api.models import Auxilio
+from api.tests.factories import criar_dados_auxilio
 
 
 class AuxilioModelTestCase(TestCase):
     def make_auxilio(self, **kwargs):
-        nome_valido = Auxilio._meta.get_field("nome").choices[0][0]
-        campus_valido = Auxilio._meta.get_field("campus").choices[0][0]
-
-        data = {
-            "nome": nome_valido,
-            "campus": campus_valido,
-            "descricao": "Descrição de teste",
-            "qtd_chamados": 0,
-            "impedir_aluno": False,
-            "exigir_comprov": False,
-            "exigir_frequen": False,
-            "disponibilidade": False,
-            "edital": None,
-        }
-        data.update(kwargs)
-        return Auxilio(**data)
+        return Auxilio(**criar_dados_auxilio(**kwargs))
 
     def test_deve_criar_auxilio_valido_quando_indisponivel(self):
         auxilio = self.make_auxilio()

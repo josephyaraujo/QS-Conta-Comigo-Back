@@ -12,6 +12,11 @@ from .respostas import RespostaFormularioReadOnlySerializer
 
 from django.db import transaction
 
+from .campos import (
+    CAMPOS_FORMULARIO_QUESTAO,
+    CAMPOS_FORMULARIO_QUESTAO_COM_OPCOES,
+)
+
 
 # ------- Serializers de Formulário e Questões -------
 class FormularioQuestaoOpcaoSerializer(serializers.ModelSerializer):
@@ -35,11 +40,7 @@ class FormularioQuestaoSerializer(serializers.ModelSerializer):
         model = FormularioQuestao
         fields = [
             "id",
-            "formulario",
-            "titulo_pergunta",
-            "tipo_pergunta",
-            "obrigatoriedade",
-            "ordem",
+            *CAMPOS_FORMULARIO_QUESTAO,
             "opcoes",
         ]
         extra_kwargs = {"id": {"read_only": True}}

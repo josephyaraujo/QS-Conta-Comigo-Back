@@ -15,6 +15,7 @@ from django.contrib.auth import get_user_model
 from ..constants import SolicitacaoEnum
 from datetime import datetime
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from api.views.permissions_helpers import obter_permissoes_por_acao
 
 
 class SolicitacaoViewSet(viewsets.ModelViewSet):
@@ -42,23 +43,20 @@ class BeneficioViewSet(viewsets.ModelViewSet):
         return super().get_serializer_class()
 
     def get_permissions(self):
-        ACTIONS_ASSISTENTE = [
-            "list",
-            "retrieve",
-            "create",
-            "update",
-            "partial_update",
-            "destroy",
-            "details_programa",
-            "finaliza_beneficio",
-        ]
-        ACTIONS_ALUNO = ["meus_beneficios"]
-
-        if self.action in ACTIONS_ASSISTENTE:
-            return [IsAuthenticated(), OnlyAssistenteSocial()]
-        if self.action in ACTIONS_ALUNO:
-            return [IsAuthenticated(), OnlyAluno()]
-        return [IsAuthenticated()]
+        return obter_permissoes_por_acao(
+            self.action,
+            acoes_assistente=[
+                "list",
+                "retrieve",
+                "create",
+                "update",
+                "partial_update",
+                "destroy",
+                "details_programa",
+                "finaliza_beneficio",
+            ],
+            acoes_aluno=["meus_beneficios"],
+        )
 
     @action(detail=True, methods=["get"])
     def details_programa(self, request, pk=None):

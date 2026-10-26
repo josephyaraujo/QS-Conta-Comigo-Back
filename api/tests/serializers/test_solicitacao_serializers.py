@@ -1,4 +1,5 @@
 from django.test import TestCase
+from api.tests.factories import criar_dados_solicitacao
 from rest_framework.test import APIRequestFactory
 
 from api.models import (
@@ -21,39 +22,13 @@ class TestSolicitacaoSerializers(TestCase):
     def setUp(self):
         self.factory = APIRequestFactory()
 
-        self.statusSolicitacao = StatusSolicitacao.objects.create(
-            codigo=44, descricao="A" * 100
-        )
+        dados = criar_dados_solicitacao("Solicitação teste")
+        for nome, valor in dados.items():
+            setattr(self, nome, valor)
+
         self.status_inicial = StatusSolicitacao.objects.create(
-            codigo=1, descricao="EM_ANALISE"
-        )
-        self.usuario = Usuario.objects.create(
-            nome_completo="Pafinha Silva", email="pafinhaSilva@gmail.com"
-        )
-        self.curso = Cursos.objects.create(
-            nome="Tecnologia em Análise e Desenvolvimento de Sistemas"
-        )
-        self.aluno = Aluno.objects.create(
-            usuario=self.usuario,
-            matricula="20241014040025",
-            cpf="55284158024",
-            curso=self.curso,
-            periodo=4,
-            status="Matriculado no SUAP",
-            campus="Natal-Central",
-            ingresso=None,
-            qtd_periodos=6,
-        )
-        self.assistente_social = AssistenteSocial.objects.create(
-            usuario=self.usuario, matricula="2024101"
-        )
-        self.tipo_auxilio = Auxilio.objects.create()
-        self.solicitacao = Solicitacao.objects.create(
-            status=self.statusSolicitacao,
-            descricao="Solicitação teste",
-            id_assistente_social=self.assistente_social,
-            id_aluno=self.aluno,
-            tipo_auxilio=self.tipo_auxilio,
+            codigo=1,
+            descricao="EM_ANALISE",
         )
 
     def test_solicitacao_create_serializer_cria_objeto_com_aluno_logado(self):

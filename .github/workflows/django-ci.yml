@@ -20,21 +20,24 @@ jobs:
 
       - name: Instalar dependências
         run: pip install -r requirements.txt
-      
+
       - name: Verificar projeto Django
         run: python manage.py check
 
       - name: Executar migrations
         run: python manage.py migrate
-      
+
       - name: Executar testes
         run: python manage.py test
-      
+
       - name: Detectar código depreciado
         run: pytest -W error::DeprecationWarning -W error::PendingDeprecationWarning
-      
+
       - name: Verificar código com Ruff
         run: python -m ruff check api conta_comigo_backend --select UP
-      
+
       - name: Verificar padrão de formatação com Ruff
         run: python -m ruff format --check api conta_comigo_backend
+
+      - name: Detectar código duplicado
+        run: python -m pylint api conta_comigo_backend

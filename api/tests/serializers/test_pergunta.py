@@ -1,40 +1,23 @@
-from api.models import Aluno, AssistenteSocial, Cursos, Pergunta, Usuario
-from api.serializers.perguntas import PerguntaRespostaSerializer, PerguntaSerializer
-from django.test import TestCase
 from datetime import date
+
+from django.test import TestCase
+
+from api.models import AssistenteSocial
+from api.serializers.perguntas import (
+    PerguntaRespostaSerializer,
+    PerguntaSerializer,
+)
+from api.tests.factories import criar_dados_pergunta
 
 
 class TestPerguntaSerializer(TestCase):
     def setUp(self):
-        self.usuario = Usuario.objects.create(
-            nome_completo="Usuario Teste", email="userteste@gmail.com"
-        )
-        self.curso = Cursos.objects.create(
-            nome="Tecnologia em Análise e Desenvolvimento de Sistemas"
-        )
-        self.aluno = Aluno.objects.create(
-            usuario=self.usuario,
-            matricula="20241014040025",
-            cpf="00000000000",
-            curso=self.curso,
-            periodo=4,
-            status="Matriculado no SUAP",
-            campus="Natal-Central",
-            ingresso=None,
-            qtd_periodos=6,
-        )
-        self.assistente_social = AssistenteSocial.objects.create(
-            usuario=self.usuario, matricula="2024101"
-        )
-        self.pergunta = Pergunta.objects.create(
-            enunciado="A" * 900,
-            resposta=None,
-            status="nao_respondida",
-            data_realizacao=date.today(),
-            data_resposta=date.today(),
-            assistente_social=None,
-            aluno=self.aluno,
-        )
+        dados = criar_dados_pergunta()
+        for nome, valor in dados.items():
+            setattr(self, nome, valor)
+
+        self.assistente_social = self.usuario.assistentesocial
+
         self.resposta = {
             "enunciado": self.pergunta.enunciado,
             "resposta": "resposta teste",

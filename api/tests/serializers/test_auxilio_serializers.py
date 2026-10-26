@@ -3,19 +3,16 @@ from django.test import TestCase
 from api.models import Auxilio
 from api.serializers.auxilio_beneficio import AuxilioListSerializer, AuxilioSerializer
 
+from api.tests.factories import criar_dados_auxilio
+
 
 class AuxilioSerializerTestCase(TestCase):
     def setUp(self):
         self.auxilio = Auxilio.objects.create(
-            nome=Auxilio._meta.get_field("nome").choices[0][0],
-            campus=Auxilio._meta.get_field("campus").choices[0][0],
-            descricao="Auxílio para testes",
-            qtd_chamados=2,
-            impedir_aluno=False,
-            exigir_comprov=False,
-            exigir_frequen=False,
-            disponibilidade=False,
-            edital=None,
+            **criar_dados_auxilio(
+                descricao="Auxílio para testes",
+                qtd_chamados=2,
+            )
         )
 
     def test_deve_serializar_todos_os_campos_esperados(self):
@@ -40,34 +37,20 @@ class AuxilioSerializerTestCase(TestCase):
         self.assertEqual(serializer.data["qtd_participantes"], 0)
 
     def test_deve_validar_dados_para_criacao(self):
-        payload = {
-            "nome": Auxilio._meta.get_field("nome").choices[0][0],
-            "campus": Auxilio._meta.get_field("campus").choices[0][0],
-            "descricao": "Novo auxílio",
-            "qtd_chamados": 1,
-            "impedir_aluno": False,
-            "exigir_comprov": False,
-            "exigir_frequen": False,
-            "disponibilidade": False,
-            "edital": None,
-        }
+        payload = criar_dados_auxilio(
+            descricao="Novo auxílio",
+            qtd_chamados=1,
+        )
 
         serializer = AuxilioSerializer(data=payload)
 
         self.assertTrue(serializer.is_valid(), serializer.errors)
 
     def test_deve_criar_auxilio_via_serializer(self):
-        payload = {
-            "nome": Auxilio._meta.get_field("nome").choices[0][0],
-            "campus": Auxilio._meta.get_field("campus").choices[0][0],
-            "descricao": "Auxílio criado via serializer",
-            "qtd_chamados": 3,
-            "impedir_aluno": False,
-            "exigir_comprov": False,
-            "exigir_frequen": False,
-            "disponibilidade": False,
-            "edital": None,
-        }
+        payload = criar_dados_auxilio(
+            descricao="Auxílio criado via serializer",
+            qtd_chamados=3,
+        )
 
         serializer = AuxilioSerializer(data=payload)
         self.assertTrue(serializer.is_valid(), serializer.errors)
@@ -81,15 +64,10 @@ class AuxilioSerializerTestCase(TestCase):
 class AuxilioListSerializerTestCase(TestCase):
     def setUp(self):
         self.auxilio = Auxilio.objects.create(
-            nome=Auxilio._meta.get_field("nome").choices[0][0],
-            campus=Auxilio._meta.get_field("campus").choices[0][0],
-            descricao="Auxílio para listagem",
-            qtd_chamados=0,
-            impedir_aluno=False,
-            exigir_comprov=False,
-            exigir_frequen=False,
-            disponibilidade=False,
-            edital=None,
+            **criar_dados_auxilio(
+                descricao="Auxílio para listagem",
+                qtd_chamados=0,
+            )
         )
 
     def test_deve_serializar_apenas_id_e_nome(self):

@@ -28,6 +28,7 @@ from rest_framework.decorators import action
 from api.permission import IsAlunoOrAssistenteSocial, OnlyAssistenteSocial, OnlyAluno
 from rest_framework.permissions import IsAuthenticated
 from django.utils import timezone
+from api.views.permissions_helpers import obter_permissoes_por_acao
 
 
 class ChamadoViewSet(viewsets.ModelViewSet):
@@ -36,21 +37,17 @@ class ChamadoViewSet(viewsets.ModelViewSet):
     parser_classes = (MultiPartParser, FormParser, JSONParser)
 
     def get_permissions(self):
-        ACTIONS_ASSISTENTE = ["concluir_chamado"]
-        ACTIONS_ALUNO_OU_ASSISTENTE = [
-            "create",
-            "update",
-            "partial_update",
-            "perform_create",
-            "fechar_chamado",
-        ]
-        if self.action in ACTIONS_ASSISTENTE:
-            return [IsAuthenticated(), OnlyAssistenteSocial()]
-
-        if self.action in ACTIONS_ALUNO_OU_ASSISTENTE:
-            return [IsAuthenticated(), IsAlunoOrAssistenteSocial()]
-
-        return [IsAuthenticated()]
+        return obter_permissoes_por_acao(
+            self.action,
+            acoes_assistente=["concluir_chamado"],
+            acoes_aluno_ou_assistente=[
+                "create",
+                "update",
+                "partial_update",
+                "perform_create",
+                "fechar_chamado",
+            ],
+        )
 
     def get_queryset(self):
         usuario = Usuario.objects.get(id=self.request.user.id)

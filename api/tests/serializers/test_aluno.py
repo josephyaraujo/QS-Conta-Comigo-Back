@@ -1,33 +1,22 @@
-from api.models import Aluno, Cursos, Usuario
+from datetime import date
+
+from django.test import TestCase
+
 from api.serializers.base import (
     AlunoPerfilSerializer,
     AlunoSerializer,
     AlunoSimpleSerializer,
     AlunoReadOnlySerializer,
 )
-from django.test import TestCase
-from datetime import date
+from api.tests.factories import criar_dados_aluno
 
 
 class TestAlunoSerializer(TestCase):
     def setUp(self):
-        self.usuario = Usuario.objects.create(
-            nome_completo="Usuario Teste", email="userteste@gmail.com"
-        )
-        self.curso = Cursos.objects.create(
-            nome="Tecnologia em Análise e Desenvolvimento de Sistemas"
-        )
-        self.aluno = Aluno.objects.create(
-            usuario=self.usuario,
-            matricula="0" * 14,
-            cpf="0" * 11,
-            curso=self.curso,
-            periodo=4,
-            status="Matriculado no SUAP",
-            campus="Natal-Central",
-            ingresso=None,
-            qtd_periodos=6,
-        )
+        dados = criar_dados_aluno()
+        self.usuario = dados["usuario"]
+        self.curso = dados["curso"]
+        self.aluno = dados["aluno"]
 
     def test_aluno_serializer_leitura_retorna_campos_esperados(self):
         data = AlunoReadOnlySerializer(instance=self.aluno).data

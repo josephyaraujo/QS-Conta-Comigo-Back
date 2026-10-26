@@ -1,33 +1,21 @@
-from datetime import date, timedelta
 from django.test import TestCase
-from api.models import Formulario, FormularioQuestao, FormularioQuestaoOpcao, Auxilio
+
 from api.serializers import FormularioQuestaoOpcaoSerializer
+from api.tests.factories import criar_dados_formulario_questao
 
 
 class TestFormularioQuestaoOpcaoSerializer(TestCase):
     def setUp(self):
-        self.auxilio = Auxilio.objects.create()
-        self.formulario = Formulario.objects.create(
-            titulo="Formulário Teste",
-            objetivo="Objetivo de teste",
-            solicitados="Todos",
-            auxilio_alvo=self.auxilio,
-            data_inicio=date.today(),
-            data_fim=date.today() + timedelta(days=5),
-            alunos_solicitados=0,
-            status="rascunho",
+        dados = criar_dados_formulario_questao(
+            alternativa="Opção de teste",
         )
-        self.questao = FormularioQuestao.objects.create(
-            formulario=self.formulario,
-            titulo_pergunta="Qual a sua renda familiar parcial?",
-            tipo_pergunta="multipla escolha",
-            obrigatoriedade=True,
-        )
-        self.opcao_data = {"questao": self.questao.id, "alternativa": "Opção de teste"}
+        for nome, valor in dados.items():
+            setattr(self, nome, valor)
 
-        self.opcao = FormularioQuestaoOpcao.objects.create(
-            questao=self.questao, alternativa="Opção de teste"
-        )
+        self.opcao_data = {
+            "questao": self.questao.id,
+            "alternativa": "Opção de teste",
+        }
 
     def test_serializer_com_dados_validos(self):
         serializer = FormularioQuestaoOpcaoSerializer(data=self.opcao_data)
