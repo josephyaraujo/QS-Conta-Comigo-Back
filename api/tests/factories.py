@@ -6,11 +6,13 @@ from api.models import (
     Auxilio,
     Beneficio,
     Cursos,
+    Formulario,
+    FormularioQuestao,
+    FormularioQuestaoOpcao,
     Solicitacao,
     StatusSolicitacao,
     Usuario,
 )
-
 
 def criar_dados_beneficio():
     usuario = Usuario.objects.create(
@@ -115,4 +117,42 @@ def criar_dados_solicitacao(descricao_solicitacao="B" * 200):
         "tipo_auxilio": tipo_auxilio,
         "solicitacao": solicitacao,
     }
+
+
+def criar_dados_formulario_questao(
+    titulo_pergunta="Qual a sua renda familiar parcial?",
+    alternativa=None,
+):
+    auxilio = Auxilio.objects.create()
+    formulario = Formulario.objects.create(
+        titulo="Formulário Teste",
+        objetivo="Objetivo de teste",
+        solicitados="Todos",
+        auxilio_alvo=auxilio,
+        data_inicio=date.today(),
+        data_fim=date.today() + timedelta(days=5),
+        alunos_solicitados=0,
+        status="rascunho",
+    )
+    questao = FormularioQuestao.objects.create(
+        formulario=formulario,
+        titulo_pergunta=titulo_pergunta,
+        tipo_pergunta="multipla escolha",
+        obrigatoriedade=True,
+    )
+
+    dados = {
+        "auxilio": auxilio,
+        "formulario": formulario,
+        "questao": questao,
+    }
+
+    if alternativa is not None:
+        opcao = FormularioQuestaoOpcao.objects.create(
+            questao=questao,
+            alternativa=alternativa,
+        )
+        dados["opcao"] = opcao
+
+    return dados
 
