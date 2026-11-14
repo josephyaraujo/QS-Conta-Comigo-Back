@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "corsheaders",
     "drf_yasg",
+    "django_extensions",
     # "social_django",
     # Local apps
     "api",

@@ -12,6 +12,11 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v7
 
+      - name: Instalar Graphviz
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y graphviz
+
       - name: Configurar Python
         uses: actions/setup-python@v7
         with:
@@ -26,6 +31,19 @@ jobs:
 
       - name: Executar migrations
         run: python manage.py migrate
+
+      - name: Gerar diagrama de classes UML
+        run: |
+          mkdir -p docs
+          python manage.py graph_models api --pydot -g -o docs/diagrama-classes-dominio.png
+
+      - name: Publicar diagrama UML como artefato
+        uses: actions/upload-artifact@v7
+        with:
+          name: diagrama-classes-dominio
+          path: docs/diagrama-classes-dominio.png
+          if-no-files-found: error
+          retention-days: 30
 
       - name: Executar testes
         run: python manage.py test
