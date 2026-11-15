@@ -59,7 +59,7 @@ class ExchangeSuapCode(APIView):
             )
 
         # troca o code pelo access token
-        token_url = "https://suap.ifrn.edu.br/o/token/"
+        authorization_endpoint = "https://suap.ifrn.edu.br/o/token/"
         data = {
             "grant_type": "authorization_code",
             "code": code,
@@ -67,11 +67,9 @@ class ExchangeSuapCode(APIView):
             "client_id": settings.SOCIAL_AUTH_SUAP_KEY,
             "client_secret": settings.SOCIAL_AUTH_SUAP_SECRET,
         }
-        print("data", data)
 
         # a requisição ao SUAP para pegar o access token
-        token_response = requests.post(token_url, data=data)
-        print("response", token_response.json())
+        token_response = requests.post(authorization_endpoint, data=data, timeout=10)
         if token_response.status_code != 200:
             return Response(
                 {"error": "Falha ao obter token do SUAP."},

@@ -19,14 +19,12 @@ from io import BytesIO
 def formatar_data(data):
     if isinstance(data, date):
         return data.strftime("%d/%m/%Y")
+
     if isinstance(data, str) and data:
-        try:
-            # Tenta converter string ISO (YYYY-MM-DD) para dd/mm/yyyy
-            partes = data.split("-")
-            if len(partes) == 3:
-                return f"{partes[2]}/{partes[1]}/{partes[0]}"
-        except:
-            pass
+        partes = data.split("-")
+        if len(partes) == 3:
+            return f"{partes[2]}/{partes[1]}/{partes[0]}"
+
     return str(data) if data else ""
 
 
