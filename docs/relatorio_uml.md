@@ -28,7 +28,8 @@ Como sua execução depende de um programa instalado no sistema operacional, foi
 
 Para isso, foi adicionada ao workflow uma etapa responsável pela instalação do Graphviz por meio do gerenciador de pacotes do Ubuntu:
 
-```- name: Instalar Graphviz
+```
+- name: Instalar Graphviz
   run: |
     sudo apt-get update
     sudo apt-get install -y graphviz
@@ -40,7 +41,9 @@ Essa configuração garante que o comando necessário para renderizar o diagrama
 
 Após a instalação e configuração das dependências, foi utilizado o comando abaixo para gerar o diagrama dos modelos pertencentes à aplicação api:
 
+```
 python manage.py graph_models api --pydot -g -o docs/diagrama-classes-dominio.png
+```
 
 Os parâmetros utilizados possuem as seguintes finalidades:
 
@@ -60,7 +63,8 @@ Após a preparação do ambiente e a execução das migrações, o pipeline cria
 
 O trecho implementado foi:
 
-```- name: Gerar diagrama de classes UML
+```
+- name: Gerar diagrama de classes UML
   run: |
     mkdir -p docs
     python manage.py graph_models api --pydot -g -o docs/diagrama-classes-dominio.png
