@@ -1,5 +1,6 @@
 asgiref==3.11.1
 attrs==26.1.0
+bandit==1.9.4
 certifi==2026.4.22
 cffi==2.0.0
 charset-normalizer==3.5.2
