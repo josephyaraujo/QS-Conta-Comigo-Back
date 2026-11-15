@@ -182,6 +182,7 @@ class ChamadoViewSet(viewsets.ModelViewSet):
                 mensagem=f"O chamado de {chamado.tipo_de_chamado} foi concluído por {usuario.groups.name} {usuario.first_name}.",
                 usuario=chamado.aluno.usuario,
                 titulo="Chamado Concluído",
+                tipo="chamado",
             )
             return Response(
                 {"success": True, "mensagem": "Chamado concluído com sucesso."},
