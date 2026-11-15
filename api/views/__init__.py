@@ -52,7 +52,6 @@ __all__ = [
     "ChamadoViewSet",
     "ChamadoDetailViewSet",
     "DocumentoViewSet",
-    "NotificacaoViewSet",
     "PerguntaViewSet",
     "DashboardView",
 ]

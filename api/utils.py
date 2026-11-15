@@ -66,7 +66,20 @@ def formatar_nome_curso(curso_raw):
     curso_sem_codigo = re.sub(r"^\d+\s*-\s*", "", curso_raw)
 
     # remove o trecho do campus
-    curso_sem_campus = re.sub(r"\s*-\s*Campus.*$", "", curso_sem_codigo)
+    posicao_campus = curso_sem_codigo.find("Campus")
+
+    if posicao_campus != -1:
+        posicao_hifen = curso_sem_codigo.rfind("-", 0, posicao_campus)
+
+        if (
+            posicao_hifen != -1
+            and not curso_sem_codigo[posicao_hifen + 1 : posicao_campus].strip()
+        ):
+            curso_sem_campus = curso_sem_codigo[:posicao_hifen].rstrip()
+        else:
+            curso_sem_campus = curso_sem_codigo
+    else:
+        curso_sem_campus = curso_sem_codigo
 
     # remove o ano entre parênteses
     curso_final = re.sub(r"\(\d{4}\)", "", curso_sem_campus).strip()
