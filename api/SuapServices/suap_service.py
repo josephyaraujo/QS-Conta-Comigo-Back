@@ -29,6 +29,7 @@ class PopulateUsuario:
             url=self.USER_DATA_URL,
             params=data,
             headers=headers,
+            timeout=10,
         ).json()
 
         user_details = {
@@ -71,7 +72,10 @@ class PopulateUsuario:
 
             # Request dos dados de aluno
             response = requests.get(
-                url=self.DATA_DETAILS_URL_ALUNO, headers=headers, params=data
+                url=self.DATA_DETAILS_URL_ALUNO,
+                headers=headers,
+                params=data,
+                timeout=10,
             ).json()
 
             cpf_numerico = "".join(filter(str.isdigit, user_details["cpf"]))
