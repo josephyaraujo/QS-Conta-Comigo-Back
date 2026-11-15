@@ -1,18 +1,22 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from typing import ClassVar
+
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from api.models import Beneficio, Cursos
 from api.permission import OnlyAssistenteSocial
 from api.serializers.auxilio_beneficio import (
-    RelatorioSerializer,
     RelatorioGeradoSerializer,
+    RelatorioSerializer,
 )
-from ..services.relatorioService import gerar_pdf, gerar_docx, gerar_xlsx
-from drf_yasg.utils import swagger_auto_schema
+
+from ..services.relatorioService import gerar_docx, gerar_pdf, gerar_xlsx
 
 
 class RelatorioView(APIView):
-    permission_classes = [OnlyAssistenteSocial]
+    permission_classes: ClassVar[list] = [OnlyAssistenteSocial]
 
     @swagger_auto_schema(request_body=RelatorioSerializer, security=[{"Bearer": []}])
     def post(self, request):
@@ -28,12 +32,10 @@ class RelatorioView(APIView):
 
         ano = dados_validados.get("ano")
         programa = dados_validados.get("programa")
-        situacao_sistemica = dados_validados.get("situacao_sistemica")
         ingresso = dados_validados.get("ingresso")
         curso = dados_validados.get("curso")
         periodo_referencia = dados_validados.get("periodo_referencia")
         situacao_periodo = dados_validados.get("situacao_periodo")
-        turno = dados_validados.get("turno")
 
         filtros = {}
 

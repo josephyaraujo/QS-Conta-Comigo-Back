@@ -161,7 +161,6 @@ class FormularioViewSet(viewsets.ModelViewSet):
                 "mensagem": f'Formulário "{formulario.titulo}" enviado para {len(alunos_finais)} alunos.',
                 "alunos_notificados_count": len(alunos_finais),
                 "respostas_criadas_count": len(respostas_formulario),
-                "alunos_notificados_count": len(alunos_finais),
                 "status_formulario": formulario.status,
             },
             status=status.HTTP_200_OK,

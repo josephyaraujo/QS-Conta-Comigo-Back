@@ -1,16 +1,16 @@
-from rest_framework.permissions import IsAuthenticated
+from typing import ClassVar
 
-from ..models import *
-from ..serializers import *
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from ..services.notificacaoService import ConsultarNotificacao
+
 from ..serializers.base import NotificacaoSerializer
+from ..services.notificacaoService import ConsultarNotificacao
 
 
 class NotificacaoView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes: ClassVar[list] = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         usuario = request.user
@@ -25,43 +25,30 @@ class NotificacaoView(APIView):
 
     def patch(self, request, pk=None, *args, **kwargs):
         usuario = request.user
+        notificacao_id = pk or request.query_params.get("id")
 
-        try:
-            notificacao_id = pk or request.query_params.get("id")
-
-            if not notificacao_id:
-                return Response(
-                    {"error": "ID da notificação não fornecido."},
-                    status=status.HTTP_400_BAD_REQUEST,
-                )
-
-            ConsultarNotificacao.marcar_como_lida(usuario, notificacao_id)
-
+        if not notificacao_id:
             return Response(
-                {"message": "Notificação marcada como lida com sucesso."},
-                status=status.HTTP_200_OK,
+                {"error": "ID da notificação não fornecido."},
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
-        except Notificacao.DoesNotExist:
-            return Response(
-                {"error": "Notificação não encontrada."},
-                status=status.HTTP_404_NOT_FOUND,
-            )
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        ConsultarNotificacao.marcar_como_lida(usuario, notificacao_id)
+
+        return Response(
+            {"message": "Notificação marcada como lida com sucesso."},
+            status=status.HTTP_200_OK,
+        )
 
     def delete(self, request, pk=None):
         usuario = request.user
 
-        try:
-            if not pk:
-                return Response(
-                    {"error": "ID não fornecido"}, status=status.HTTP_400_BAD_REQUEST
-                )
+        if not pk:
+            return Response(
+                {"error": "ID não fornecido"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
-            ConsultarNotificacao.excluir_notificacao(usuario, [pk])
+        ConsultarNotificacao.excluir_notificacao(usuario, [pk])
 
-            return Response(status=status.HTTP_204_NO_CONTENT)
-
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_204_NO_CONTENT)

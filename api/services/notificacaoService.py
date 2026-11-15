@@ -1,5 +1,6 @@
-from ..models import Usuario, Notificacao
-from datetime import datetime
+from django.utils import timezone
+
+from ..models import Notificacao
 
 """CDU006. Consultar notificações
 Ator principal: Usuário logado
@@ -18,20 +19,17 @@ class ConsultarNotificacao:
     @staticmethod
     def marcar_como_lida(usuario, notificacoes_ids):
         Notificacao.objects.filter(id=notificacoes_ids, usuario=usuario).update(
-            data_visualizacao=datetime.now()
+            data_visualizacao=timezone.now()
         )
 
     @staticmethod
     def excluir_notificacao(usuario, notificacoes_ids):
-        for n in Notificacao.objects.filter(id__in=notificacoes_ids):
-            if usuario in n.usuario.all():
-                n.delete()
+        for notificacao in Notificacao.objects.filter(id__in=notificacoes_ids):
+            if usuario in notificacao.usuario.all():
+                notificacao.delete()
 
     @staticmethod
     def criar_notificacao(titulo, mensagem):
-        notificacao = Notificacao.objects.create(
+        return Notificacao.objects.create(
             titulo=titulo, mensagem=mensagem, status="nao_lida"
         )
-        print(notificacao)
-
-        return notificacao

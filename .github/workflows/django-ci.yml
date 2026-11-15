@@ -1,3 +1,4 @@
+
 name: Django CI
 
 on:
@@ -51,8 +52,17 @@ jobs:
       - name: Detectar código depreciado
         run: pytest -W error::DeprecationWarning -W error::PendingDeprecationWarning
 
-      - name: Verificar código com Ruff
+      - name: Verificar código depreciado com Ruff
         run: python -m ruff check api conta_comigo_backend --select UP
+
+      - name: Verificar code smells corrigidos com Ruff
+        run: |
+          python -m ruff check \
+            api/services/notificacaoService.py \
+            api/views/notificacoes.py \
+            api/views/relatorio.py \
+            api/views/formularios.py \
+            --select DTZ005,BLE001,F841,F601
 
       - name: Verificar padrão de formatação com Ruff
         run: python -m ruff format --check api conta_comigo_backend
